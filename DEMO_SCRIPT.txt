@@ -1,0 +1,48 @@
+[0:00 - HOOK]
+Hello everyone. Every year, researchers write thousands of academic abstracts, but the peer-review process is slow, susceptible to bias if double-blind anonymity is breached, and reviewers spend too much time checking basic formatting instead of core ideas. (pause) Today, I am showing you the Academic Peer Review Simulator, which solves these challenges by combining a secure, multi-agent workflow with custom tools and human oversight.
+
+[0:20 - WHAT IT IS]
+This simulator belongs to the Freestyle track and acts as an automated, multi-agent editorial desk that helps journals triage submissions. It automatically checks double-blind compliance, assesses word counts and structures, runs preliminary novelty checks, and gathers critiques on writing quality before presenting a unified draft review to a human editor.
+
+[0:40 - SHOW THE BANNER]
+(show assets/cover_page_banner.png)
+As you can see on the banner, the Peer Review Simulator is automated, secure, and intelligent, serving as a comprehensive gatekeeper for scientific manuscripts.
+
+[1:00 - ARCHITECTURE]
+(show assets/architecture_diagram.png)
+Let us walk through the workflow shown in the architecture diagram.
+First, a user submits a paper abstract, which goes to the Security Checkpoint node. This node scrubs personal identifiers like emails and names, checks for prompt injection keywords, and ensures the text meets length requirements.
+If it fails, it routes directly to the Final Output via a Security Event, aborting the process.
+If it passes, the abstract goes to the Structure Analyzer node, which checks for necessary components like introduction, methods, results, and conclusion.
+From there, the Citation Verifier agent runs to validate citation formats and DOI links.
+Next, the Novelty Evaluator agent reviews originality by searching literature databases.
+Then, the Language Critic agent critiques readability, grammar, and tone.
+All these inputs converge at the Synthesizer Chair agent, which drafts a meta-review and suggests a verdict.
+This brings us to the Human Approval node, where the system pauses for a human editor to sign off or input custom overrides.
+Finally, the Revision Assistant agent takes the finalized feedback to draft specific, actionable improvement steps, which are combined into the final PDF-ready report.
+
+[2:00 - LIVE DEMO]
+(switch to playground at localhost:18081)
+(pause)
+Now, let us run some test cases.
+For our first test, we submit a standard, well-structured academic abstract. We expect it to clear security, go through all evaluation agents, and then pause at the Human Approval stage.
+(pause)
+You can see in the playground that it has yielded a Request Input interrupt. The Synthesizer Chair recommends a verdict of Accept or Minor Revision.
+Now, as the human editor, I will type "Approve" in the input field.
+The workflow resumes, the Revision Assistant creates a checklist, and we get a beautiful Academic Peer Review Report showing scores, sub-committee reviews, and action items.
+
+For our second test, we submit a very short abstract, containing only one sentence.
+(pause)
+As expected, the Security Checkpoint immediately flags it for being under 50 characters, and routes it directly to Final Output, displaying a clear Security Checkpoint Failure message.
+
+For our third test, we submit an abstract containing prompt injection text, starting with "Ignore previous instructions".
+(pause)
+The Security Checkpoint flags the violation, aborts the review, and outputs a Critical Security Audit log.
+
+[3:00 - SECURITY & MCP]
+(pause)
+Our security checkpoint uses custom regexes for PII and checks injection blacklists, emitting structured JSON audit logs for every run.
+The agents also leverage a custom FastMCP server, exposing tools like search_literature to find similar papers, validate_academic_format to check word counts, fetch_journal_metrics to find target journals, and verify_citation to inspect references.
+
+[3:30 - IMPACT / CLOSE]
+By automating formatting checks and safety audits, the Academic Peer Review Simulator dramatically reduces reviewer workload and preserves double-blind integrity. This allows human experts to focus their energy on evaluating deep scientific breakthroughs. Thank you.
