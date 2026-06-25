@@ -51,31 +51,7 @@ Before you begin, ensure you have:
 
 The Peer Review Simulator leverages a multi-agent workflow that models the double-blind academic peer-review process, from initial submission and safety scanning to final review compilation and human-in-the-loop oversight.
 
-### Mermaid Diagram
-```mermaid
-graph TD
-    START --> SC[Security Checkpoint Node]
-    SC -- SECURITY_PASS --> SA[Structure Analyzer Node]
-    SC -- SECURITY_EVENT --> FO[Final Output Node]
-    SA --> CV[Citation Verifier Agent]
-    CV --> NE[Novelty Evaluator Agent]
-    NE --> LC[Language Critic Agent]
-    LC --> SC2[Synthesizer Chair Agent]
-    SC2 --> HA[Human Approval Node]
-    HA --> RA[Revision Assistant Agent]
-    RA --> FO
 
-    subgraph MCP Server Tools
-        CV -. Uses .-> V_CIT[verify_citation]
-        CV -. Uses .-> V_AC[validate_academic_format]
-        NE -. Uses .-> S_LIT[search_literature]
-        NE -. Uses .-> F_JM[fetch_journal_metrics]
-    end
-
-    subgraph Human-in-the-Loop (HITL)
-        HA
-    end
-```
 
 ### Flow Breakdown
 1. **Security Checkpoint**: Cleans PII (emails, phone numbers, authors), detects prompt injections, and validates input length.
@@ -212,5 +188,3 @@ The script for a 3-minute oral presentation and walkthrough is located at [DEMO_
    *.pyc
    .adk/
    ```
-
-⚠️ NEVER push `.env` to GitHub. Your API key will be exposed publicly.
